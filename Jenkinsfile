@@ -25,7 +25,8 @@ pipeline {
 
                     echo "Starting tests on ${params.BROWSER} (Headless: ${params.IS_HEADLESS})..."
 
-                    sh "mvn clean test -Dbrowser.type=${params.BROWSER} -Dbrowser.headless=${params.IS_HEADLESS}"
+                    sh "cd TutorialsNinja && mvn clean test -Dbrowser.type=${params.BROWSER} -Dbrowser.headless=${params.IS_HEADLESS}"
+                    }
                 }
             }
         }
