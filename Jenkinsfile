@@ -1,9 +1,9 @@
 pipeline {
 
     agent {
-        docker {
+        dockerContainer {
             image 'markhobson/maven-chrome:jdk-21'
-            args '-u root --shm-size=2g'
+        args '-u root --shm-size=2g'
         }
     }
 
