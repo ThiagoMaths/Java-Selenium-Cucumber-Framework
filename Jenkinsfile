@@ -35,10 +35,11 @@ pipeline {
     post {
         always {
             echo "Generating Allure report..."
-            allure includeProperties: false,
-                   jdk: 'JDK 21',
-                   reportBuildPolicy: 'ALWAYS',
-                   results: [[path: 'target/allure-results']]
-        }
+                allure tool: 'Allure',
+                       includeProperties: false,
+                       jdk: 'JDK 21',
+                       reportBuildPolicy: 'ALWAYS',
+                       results: [[path: 'TutorialsNinja/target/allure-results']]
     }
+ }
 }
