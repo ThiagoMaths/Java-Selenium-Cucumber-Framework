@@ -21,61 +21,61 @@ public class RegisterPage {
 
     public RegisterPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
-        util = new FakerUtil();
-        sqLiteHandler = new SQLiteHandler();
+       
     }
 
 
     @FindBy(id = "input-firstname")
-    public WebElement firstName;
+    private WebElement firstName;
 
     @FindBy(id = "input-lastname")
-    public WebElement lastName;
+    private WebElement lastName;
 
     @FindBy(id = "input-email")
-    public WebElement email;
+    private WebElement email;
 
     @FindBy(id = "input-telephone")
-    public WebElement telephone;
+    private WebElement telephone;
 
     @FindBy(id = "input-password")
-    public WebElement password;
+    private WebElement password;
 
     @FindBy(id = "input-confirm")
-    public WebElement confirmPassword;
+    private WebElement confirmPassword;
 
     @FindBy(xpath = "//input[@name='agree']")
-    public WebElement privacyPolity;
+    private WebElement privacyPolity;
 
     @FindBy(xpath = "//input[@value='Continue']")
-    public WebElement continueButton;
+    private WebElement continueButton;
 
     @FindBy(linkText = "Register")
-    public WebElement registerBreadCrumb;
+    private WebElement registerBreadCrumb;
 
     @FindBy(css = "input[id='input-firstname']+div")
-    public WebElement firsNameWarning;
+    private WebElement firsNameWarning;
 
     @FindBy(css = "input[id='input-lastname']+div")
-    public WebElement lastNameWarning;
+    private WebElement lastNameWarning;
 
     @FindBy(css = "input[id='input-email']+div")
-    public WebElement emailWarning;
+    private WebElement emailWarning;
 
     @FindBy(css = "input[id='input-telephone']+div")
-    public WebElement telephoneWarning;
+    private WebElement telephoneWarning;
 
     @FindBy(css = "input[id='input-password']+div")
-    public WebElement passwordWarning;
+    private WebElement passwordWarning;
 
     @FindBy(css = "div[class$='alert-dismissible']")
-    public WebElement mainWarning;
+    private WebElement mainWarning;
 
     @FindBy(xpath = "(//input[@name='newsletter'])[1]")
-    public WebElement subscribeButton;
+    private WebElement subscribeButton;
 
     @FindBy(xpath = "(//div[@class='alert alert-danger alert-dismissible'])[1]")
-    public WebElement dangerWarning;
+    private WebElement dangerWarning;
+
 
     public void enterAllDetails() {
 
