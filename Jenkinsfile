@@ -35,7 +35,7 @@ pipeline {
     post {
         always {
             echo "Generating Allure report..."
-                allure tool: 'Allure',
+                allure commandline: 'Allure',
                        includeProperties: false,
                        jdk: 'JDK 21',
                        reportBuildPolicy: 'ALWAYS',
