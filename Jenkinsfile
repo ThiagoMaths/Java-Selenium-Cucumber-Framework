@@ -1,10 +1,14 @@
 pipeline {
-	agent {
-		dockerContainer(image: 'markhobson/maven-chrome:jdk-21', args: '-u root --shm-size=2g')
+
+    agent any
+
+    tools {
+		maven 'Maven 3.9.x'
+        jdk 'JDK 21'
     }
 
     parameters {
-		choice(name: 'BROWSER', choices: ['chrome'], description: 'Which browser to run the tests on?')
+		choice(name: 'BROWSER', choices: ['chrome', 'firefox'], description: 'Which browser to run the tests on?')
         booleanParam(name: 'IS_HEADLESS', defaultValue: true, description: 'Run in headless mode (no UI)?')
     }
 
@@ -19,8 +23,12 @@ pipeline {
 
         stage('Build & Test') {
 			steps {
-				echo "Starting tests on ${params.BROWSER} (Headless: ${params.IS_HEADLESS})..."
-                sh "cd TutorialsNinja && mvn clean test -Dbrowser.type=${params.BROWSER} -Dbrowser.headless=${params.IS_HEADLESS} -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer=warn"
+                withEnv(["JAVA_HOME=${tool 'JDK 21'}", "PATH+MAVEN=${tool 'Maven 3.9.x'}/bin"]) {
+
+					echo "Starting tests on ${params.BROWSER} (Headless: ${params.IS_HEADLESS})..."
+
+                    sh "cd TutorialsNinja && mvn clean test -Dbrowser.type=${params.BROWSER} -Dbrowser.headless=${params.IS_HEADLESS} -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer=warn"
+                }
             }
         }
     }
