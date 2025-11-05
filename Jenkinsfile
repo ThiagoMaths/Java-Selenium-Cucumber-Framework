@@ -1,19 +1,31 @@
 pipeline {
-
-    agent any
-
-    tools {
-		maven 'Maven 3.9.x'
-        jdk 'JDK 21'
+    agent {
+		docker {
+			image 'maven:3.9-eclipse-temurin-21'
+            args '-u root --shm-size=2g'
+        }
     }
 
+
+
     parameters {
-		choice(name: 'BROWSER', choices: ['chrome', 'firefox'], description: 'Which browser to run the tests on?')
+		choice(name: 'BROWSER', choices: ['chrome'], description: 'Which browser to run the tests on?')
         booleanParam(name: 'IS_HEADLESS', defaultValue: true, description: 'Run in headless mode (no UI)?')
     }
 
     stages {
-		stage('Checkout') {
+        stage('Install Google Chrome') {
+			steps {
+				echo "Installing Google Chrome..."
+                sh "apt-get update -y && apt-get install -y wget"
+                sh "wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -"
+                sh "sh -c 'echo \"deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main\" >> /etc/apt/sources.list.d/google-chrome.list'"
+                sh "apt-get update -y && apt-get install -y google-chrome-stable"
+                echo "Google Chrome installation complete."
+            }
+        }
+
+        stage('Checkout') {
 			steps {
 				cleanWs()
                 checkout scm
@@ -23,12 +35,8 @@ pipeline {
 
         stage('Build & Test') {
 			steps {
-                withEnv(["JAVA_HOME=${tool 'JDK 21'}", "PATH+MAVEN=${tool 'Maven 3.9.x'}/bin"]) {
-
-					echo "Starting tests on ${params.BROWSER} (Headless: ${params.IS_HEADLESS})..."
-
-                    sh "cd TutorialsNinja && mvn clean test -Dbrowser.type=${params.BROWSER} -Dbrowser.headless=${params.IS_HEADLESS} -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer=warn"
-                }
+				echo "Starting tests on ${params.BROWSER} (Headless: ${params.IS_HEADLESS})..."
+                sh "cd TutorialsNinja && mvn clean test -Dbrowser.type=${params.BROWSER} -Dbrowser.headless=${params.IS_HEADLESS} -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer=warn"
             }
         }
     }
