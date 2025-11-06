@@ -10,8 +10,8 @@ import java.util.*;
 
 public class CSVReader {
 
-    private static final String CSV_PATH = "src\\test\\resources\\csv\\products.csv";
-    private static final String INVALID_CSV_PATH = "src\\test\\resources\\csv\\productInvalid.csv";
+    private static final String CSV_PATH = "src//test//resources//csv//products.csv";
+    private static final String INVALID_CSV_PATH = "src//test//resources//csv//productInvalid.csv";
 
     private static String readRandom(String csvPath) throws IOException {
         String randomString = null;
