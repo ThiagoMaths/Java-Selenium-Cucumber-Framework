@@ -1,9 +1,10 @@
 pipeline {
     agent {
-		dockerContainer(
-            image: 'maven:3.9-eclipse-temurin-21',
-            args: '--shm-size=2g'
-        )
+		docker {
+			image 'maven:3.9-eclipse-temurin-21'
+            // Damos ao container acesso root para instalar o Chrome
+            args '-u root --shm-size=2g'
+        }
     }
 
     parameters {
