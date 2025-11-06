@@ -1,9 +1,9 @@
 pipeline {
-    agent any
-
-    tools {
-		maven 'Maven 3.9.x'
-        jdk 'JDK 21'
+    agent {
+		dockerContainer(
+            image: 'maven:3.9-eclipse-temurin-21',
+            args: '--shm-size=2g'
+        )
     }
 
     parameters {
@@ -12,10 +12,9 @@ pipeline {
     }
 
     stages {
-        stage('Install Dependencies') {
+        stage('Install Google Chrome') {
 			steps {
 				echo "Updating apt-get and installing dependencies..."
-
                 sh "apt-get update -y && apt-get install -y wget"
                 echo "Installing Google Chrome..."
                 sh "wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -"
@@ -35,10 +34,8 @@ pipeline {
 
         stage('Build & Test') {
 			steps {
-				withEnv(["JAVA_HOME=${tool 'JDK 21'}", "PATH+MAVEN=${tool 'Maven 3.9.x'}/bin"]) {
-					echo "Starting tests on ${params.BROWSER} (Headless: ${params.IS_HEADLESS})..."
-                    sh "cd TutorialsNinja && mvn clean test -Dbrowser.type=${params.BROWSER} -Dbrowser.headless=${params.IS_HEADLESS} -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer=warn"
-                }
+				echo "Starting tests on ${params.BROWSER} (Headless: ${params.IS_HEADLESS})..."
+                sh "cd TutorialsNinja && mvn clean test -Dbrowser.type=${params.BROWSER} -Dbrowser.headless=${params.IS_HEADLESS} -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer=warn"
             }
         }
     }
