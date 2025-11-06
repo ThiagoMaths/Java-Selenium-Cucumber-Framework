@@ -27,29 +27,33 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Install Google Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y wget
-          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-          echo "Google Chrome installation complete."
 
       - name: Build and Test with Maven
         run: |
           cd TutorialsNinja
           mvn clean test -Dbrowser.type=chrome -Dbrowser.headless=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer=warn
-
         continue-on-error: true
 
-      - name: Generate Allure Report and Deploy to GitHub Pages
-        uses: simple-elf/allure-report-action@v1.7
+      - name: Set up Allure Commandline
+        run: |
+          echo "Installing Allure..."
+          # 1. Baixa a versão 2.29.0 (que sabemos que funciona)
+          wget https://repo1.maven.org/maven2/io/qameta/allure/allure-commandline/2.29.0/allure-commandline-2.29.0.zip
+          
+          # 2. Instala o 'unzip'
+          sudo apt-get update -y && sudo apt-get install -y unzip
+          
+          # 3. Descompacta para uma pasta
+          unzip allure-commandline-2.29.0.zip -d ./allure-tool
+          
+          # 4. Adiciona o 'bin' do Allure ao PATH do GitHub Actions
+          echo "$GITHUB_WORKSPACE/allure-tool/allure-2.29.0/bin" >> $GITHUB_PATH
+
+      - name: Generate Allure Report
+        run: |
+          # Agora o comando 'allure' está disponível
+          allure generate TutorialsNinja/target/allure-results -c -o allure-report
         if: always()
-        with:
-          allure-results: TutorialsNinja/target/allure-results
-          allure-report: allure-report
 
       - name: Deploy to GitHub Pages
         if: always()
@@ -57,3 +61,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./allure-report
+          publish_branch: gh-pages
