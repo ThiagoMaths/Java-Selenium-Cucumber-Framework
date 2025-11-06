@@ -44,14 +44,16 @@ jobs:
 
         continue-on-error: true
 
-      - name: Generate Allure Report
-        uses: simple-elf/allure-report-action@v1
-        if: always()
-
-      - name: Upload Allure Report
-        uses: actions/upload-artifact@v4
+      - name: Generate Allure Report and Deploy to GitHub Pages
+        uses: simple-elf/allure-report-action@v1.7
         if: always()
         with:
-          name: allure-report
-          path: allure-report
-          retention-days: 7
+          allure-results: TutorialsNinja/target/allure-results
+          allure-report: allure-report
+
+      - name: Deploy to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
