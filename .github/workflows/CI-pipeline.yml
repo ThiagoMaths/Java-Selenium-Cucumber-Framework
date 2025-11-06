@@ -1,0 +1,66 @@
+name: Java UI Automation CI
+
+
+on:
+  push:
+    branches: [ Refactor ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+
+      - name: Install Google Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget
+          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          echo "Google Chrome installation complete."
+      
+
+      - name: Build and Test with Maven
+        run: |
+          cd TutorialsNinja
+          mvn clean test -Dbrowser.type=chrome -Dbrowser.headless=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer=warn
+      
+
+      - name: Set up Allure
+        uses: allure-framework/allure-action@v3
+        with:
+          allure-version: 2.29.0
+
+      - name: Generate Allure Report
+        run: |
+          allure generate TutorialsNinja/target/allure-results -c -o allure-report
+        if: always()
+
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-report
+          path: allure-report
+          retention-days: 7
