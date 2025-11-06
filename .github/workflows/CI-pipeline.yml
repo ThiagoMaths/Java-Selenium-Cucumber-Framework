@@ -32,26 +32,22 @@ jobs:
         run: |
           cd TutorialsNinja
           mvn clean test -Dbrowser.type=chrome -Dbrowser.headless=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer=warn
+
         continue-on-error: true
 
       - name: Set up Allure Commandline
         run: |
           echo "Installing Allure..."
-          # 1. Baixa a versão 2.29.0 (que sabemos que funciona)
           wget https://repo1.maven.org/maven2/io/qameta/allure/allure-commandline/2.29.0/allure-commandline-2.29.0.zip
           
-          # 2. Instala o 'unzip'
           sudo apt-get update -y && sudo apt-get install -y unzip
           
-          # 3. Descompacta para uma pasta
           unzip allure-commandline-2.29.0.zip -d ./allure-tool
           
-          # 4. Adiciona o 'bin' do Allure ao PATH do GitHub Actions
           echo "$GITHUB_WORKSPACE/allure-tool/allure-2.29.0/bin" >> $GITHUB_PATH
 
       - name: Generate Allure Report
         run: |
-          # Agora o comando 'allure' está disponível
           allure generate TutorialsNinja/target/allure-results -c -o allure-report
         if: always()
 
