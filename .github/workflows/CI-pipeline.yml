@@ -48,7 +48,7 @@ jobs:
       
 
       - name: Set up Allure
-        uses: allure-framework/allure-action@v3
+        uses: allure-framework/allure-action@v1
         with:
           allure-version: 2.29.0
 
