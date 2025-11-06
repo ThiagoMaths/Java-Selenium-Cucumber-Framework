@@ -13,6 +13,7 @@ public class SearchResultPage {
 
     public SearchResultPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
+        this.driver = driver;
     }
 
     @FindBy(linkText = "Search")

@@ -21,7 +21,10 @@ public class RegisterPage {
 
     public RegisterPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
-       
+        this.util  = new FakerUtil();
+        this.driver = driver;
+        this.sqLiteHandler = new SQLiteHandler();
+
     }
 
 
