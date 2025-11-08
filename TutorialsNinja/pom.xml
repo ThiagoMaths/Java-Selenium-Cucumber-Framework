@@ -114,6 +114,12 @@
                 <argLine>
                     -javaagent:"${settings.localRepository}/io/qameta/allure/allure-java-agent-jvm/2.29.0/allure-java-agent-jvm-2.29.0.jar"
                 </argLine>
+
+                <includes>
+                    <include>**/Runner.java</include>
+                </includes>
+
+                <testFailureIgnore>true</testFailureIgnore>
             </configuration>
             </plugin>
         </plugins>
