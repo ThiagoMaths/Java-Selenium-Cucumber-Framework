@@ -30,12 +30,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-
       - name: Build and Test with Maven
         run: |
           cd TutorialsNinja
           mvn clean test -Dbrowser.type=chrome -Dbrowser.headless=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer=warn
-
         continue-on-error: true
 
       - name: Set up Allure Commandline
@@ -54,9 +52,17 @@ jobs:
           allure generate TutorialsNinja/target/allure-results -c -o allure-report
         if: always()
 
+      - name: Debug - Listar pastas de resultados e relatorio
+        if: always()
+        run: |
+          echo "--- Conteúdo da pasta de RESULTADOS (allure-results):"
+          ls -la TutorialsNinja/target/allure-results
+          
+          echo "--- Conteúdo da pasta de RELATÓRIO (allure-report):"
+          ls -la allure-report
+
       - name: Deploy to GitHub Pages
         if: always()
-
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
