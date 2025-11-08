@@ -10,6 +10,10 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class Login {
 
@@ -50,8 +54,16 @@ public class Login {
 
     @Then("I should see an error message that the credentials are invalid")
     public void i_should_see_an_error_message_that_the_credentials_are_invalid() {
-        Assert.assertTrue(Elements.isDisplayed(DriverManager.getDriver(), loginPage.mainWarning));
+        try {
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(10));
 
+            wait.until(ExpectedConditions.visibilityOf(loginPage.mainWarning));
+
+            Assert.assertTrue(true);
+
+        } catch (Exception e) {
+            Assert.fail("A mensagem de erro 'mainWarning' não foi exibida após 10 segundos.");
+        }
     }
 
     @When("I reset  the forgotten password for email")

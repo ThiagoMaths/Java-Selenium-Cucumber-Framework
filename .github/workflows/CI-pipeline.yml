@@ -6,23 +6,23 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-test:
+  test-and-report:
     runs-on: ubuntu-latest
 
     permissions:
       contents: write
 
     steps:
-      - name: Check out repository
+      - name: 1. Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21
+      - name: 2. Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Cache Maven packages
+      - name: 3. Cache Maven packages
         uses: actions/cache@v4
         with:
           path: ~/.m2/repository
@@ -30,15 +30,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Build and Test with Maven
+      - name: 4. Run tests with Maven
+        working-directory: ./TutorialsNinja
         run: |
-          cd TutorialsNinja
           mvn clean test -Dbrowser.type=chrome -Dbrowser.headless=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer=warn
         continue-on-error: true
 
-      - name: Set up Allure Commandline
+      - name: 5. Set up Allure Commandline
         run: |
-          echo "Installing Allure..."
           wget https://repo1.maven.org/maven2/io/qameta/allure/allure-commandline/2.29.0/allure-commandline-2.29.0.zip
           
           sudo apt-get update -y && sudo apt-get install -y unzip
@@ -47,24 +46,24 @@ jobs:
           
           echo "$GITHUB_WORKSPACE/allure-tool/allure-2.29.0/bin" >> $GITHUB_PATH
 
-      - name: Generate Allure Report
-        run: |
-          allure generate TutorialsNinja/target/allure-results -c -o allure-report
+      - name: 6. Generate Allure Report
         if: always()
-
-      - name: Debug - Listar pastas de resultados e relatorio
-        if: always()
+        working-directory: ./TutorialsNinja
         run: |
-          echo "--- Conteúdo da pasta de RESULTADOS (allure-results):"
-          ls -la TutorialsNinja/target/allure-results
-          
-          echo "--- Conteúdo da pasta de RELATÓRIO (allure-report):"
-          ls -la allure-report
+          allure generate target/allure-results -c -o allure-report
 
-      - name: Deploy to GitHub Pages
+      - name: 7. Upload Allure Report as Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: ./TutorialsNinja/allure-report
+          retention-days: 7
+
+      - name: 8. Deploy Report to GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./allure-report
+          publish_dir: ./TutorialsNinja/allure-report
           publish_branch: gh-pages

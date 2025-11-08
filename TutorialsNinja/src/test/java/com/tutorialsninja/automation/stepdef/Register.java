@@ -8,12 +8,7 @@ import com.tutorialsninja.automation.pages.HeadersSectionPage;
 import com.tutorialsninja.automation.pages.RegisterPage;
 import io.cucumber.java.en.*;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 
 public class Register {
 
@@ -25,21 +20,7 @@ public class Register {
     @Given("^I launch the application$")
     public void i_launch_the_application() {
         DriverManager.getDriver().get(Base.reader.getUrl());
-
-        try {
-            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(3));
-
-            By cookieBanner = By.xpath("//button[contains(text(),'Accept')] | //button[contains(text(),'Agree')] | //button[contains(text(),'I agree')] | //a[contains(text(),'Accept')]");
-
-            WebElement acceptButton = wait.until(ExpectedConditions.elementToBeClickable(cookieBanner));
-
-            acceptButton.click();
-
-        } catch (Exception e) {
-
-        }
     }
-
 
     @And("^I navigate to Account Registration page$")
     public void i_navigate_to_Account_Registration_page() {

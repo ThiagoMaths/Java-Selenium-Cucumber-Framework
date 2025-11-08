@@ -37,6 +37,9 @@ public class Browser {
                     chromeOptions.addArguments("--window-size=1920,1080");
 
                     chromeOptions.addArguments("--disable-dev-shm-usage");
+
+                    chromeOptions.addArguments("--disable-gpu");
+                    chromeOptions.addArguments("--no-sandbox");
                 }
                 driver = new ChromeDriver(chromeOptions);
 
