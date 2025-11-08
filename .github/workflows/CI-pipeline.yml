@@ -48,9 +48,9 @@ jobs:
 
       - name: 6. Generate Allure Report
         if: always()
-        working-directory: ./TutorialsNinja
         run: |
-          allure generate target/allure-results -c -o allure-report
+          allure generate ./TutorialsNinja/target/allure-results -c -o ./TutorialsNinja/allure-report
+          
 
       - name: 7. Upload Allure Report as Artifact
         if: always()
