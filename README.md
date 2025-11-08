@@ -1,5 +1,7 @@
 ### Advanced Web UI Test Automation Framework
 
+![CI/CD Pipeline Status](https://github.com/thiagomaths/Java-Selenium-Cucumber-Framework/actions/workflows/CI-pipeline.yml/badge.svg)
+
 #### Overview
 
 This repository contains a robust, scalable, and maintainable test automation framework built with **Java**, **Selenium**, and **Cucumber**. The project was architected to go beyond a simple test script, applying software engineering principles and design patterns to create a professional-grade solution, ready for Continuous Integration (CI/CD) environments.
@@ -16,6 +18,7 @@ The quality of this framework lies in its architecture, which was carefully plan
 * **Advanced Test Data Management Strategy:** It uses a hybrid approach with **SQLite** for user creation and **CSV/Faker** for other test data.
 * **Clean Code Principles:** The code was refactored to follow Clean Code best practices, with a clear **separation of concerns** (Asserts in Step Definitions, not in Pages).
 * **Executive Reporting with Allure Report:** Result reporting is done through **Allure**, which generates interactive and detailed HTML dashboards.
+* **Fully Automated CI/CD Pipeline:** Integrated with **GitHub Actions** for automated testing, report generation, and live dashboard publication.
 
 #### Tech Stack
 
@@ -24,11 +27,12 @@ The quality of this framework lies in its architecture, which was carefully plan
 * **BDD Testing Framework:** Cucumber
 * **Build & Dependency Management:** Apache Maven
 * **Reporting:** Allure Report
+* **CI/CD:** GitHub Actions
 * **Data Management:** SQLite, OpenCSV, JavaFaker
 * **Logging:** SLF4J & Log4j2
 * **Test Runner:** JUnit
 
-#### How to Run the Project
+#### How to Run the Project (Local)
 
 **Prerequisites:**
 * Java (JDK 21) installed
@@ -52,10 +56,30 @@ The quality of this framework lies in its architecture, which was carefully plan
 
 ---
 
+### CI/CD Pipeline with GitHub Actions
+
+This framework is fully integrated with a GitHub Actions workflow defined in `.github/workflows/CI-pipeline.yml`.
+
+This pipeline automatically triggers on every `push` to the main branches, ensuring that no regressions are introduced.
+
+**The automated pipeline performs the following steps:**
+1.  **Set up:** Checks out the code, sets up JDK 21, and caches Maven dependencies.
+2.  **Test Execution:** Runs the entire test suite (`mvn clean test`) in a **headless Linux environment**.
+3.  **Report Generation:** Uses `allure-commandline` to generate the HTML report from the test results (even if tests fail).
+4.  **Report Deployment:** Automatically publishes the generated `allure-report` folder to a dedicated `gh-pages` branch.
+
+📊 **You can view the latest executive test report, published live from the CI pipeline, at any time:**
+
+**[https://thiagomaths.github.io/Java-Selenium-Cucumber-Framework/](https://thiagomaths.github.io/Java-Selenium-Cucumber-Framework/)**
+
+---
+
 <details>
 <summary>🇧🇷 Ver este README em Português</summary>
 
 ### Framework Avançado de Automação de Testes para UI Web
+
+![Status do Pipeline de CI/CD](https://github.com/thiagomaths/Java-Selenium-Cucumber-Framework/actions/workflows/CI-pipeline.yml/badge.svg)
 
 #### Visão Geral
 
@@ -73,6 +97,7 @@ A qualidade deste framework reside em sua arquitetura, que foi cuidadosamente pl
 * **Estratégia Avançada de Gerenciamento de Dados de Teste:** Utiliza uma abordagem híbrida com **SQLite** para criação de usuários e **CSV/Faker** para outros dados de teste.
 * **Princípios de Clean Code:** O código foi refatorado para seguir as melhores práticas de Clean Code, com uma clara **separação de responsabilidades** (Asserts nos Step Definitions, não nas Pages).
 * **Relatórios Executivos com Allure Report:** A comunicação dos resultados é feita através do **Allure**, que gera dashboards HTML interativos e detalhados.
+* **Pipeline de CI/CD Automatizada:** Integrado com **GitHub Actions** para execução, geração de relatórios e publicação automatizada.
 
 #### Stack de Tecnologias
 
@@ -81,11 +106,12 @@ A qualidade deste framework reside em sua arquitetura, que foi cuidadosamente pl
 * **Framework de Testes BDD:** Cucumber
 * **Build e Dependências:** Apache Maven
 * **Relatórios:** Allure Report
+* **CI/CD:** GitHub Actions
 * **Gestão de Dados:** SQLite, OpenCSV, JavaFaker
 * **Logging:** SLF4J & Log4j2
 * **Runner de Teste:** JUnit
 
-#### Como Executar o Projeto
+#### Como Executar o Projeto (Localmente)
 
 **Pré-requisitos:**
 * Java (JDK 21) instalado
@@ -106,5 +132,23 @@ A qualidade deste framework reside em sua arquitetura, que foi cuidadosamente pl
     allure serve
     ```
 2.  Seu navegador abrirá automaticamente com o dashboard completo dos resultados.
+
+---
+
+### Pipeline de CI/CD com GitHub Actions
+
+Este framework é totalmente integrado com um *workflow* do GitHub Actions definido em `.github/workflows/CI-pipeline.yml`.
+
+Este pipeline é disparado automaticamente a cada `push` para os branches principais, garantindo que nenhuma regressão seja introduzida.
+
+**O pipeline automatizado executa os seguintes passos:**
+1.  **Configuração:** Clona o código, configura o JDK 21 e armazena as dependências do Maven em cache.
+2.  **Execução de Testes:** Roda a suíte de testes completa (`mvn clean test`) num ambiente **Linux headless**.
+3.  **Geração de Relatório:** Usa o `allure-commandline` para gerar o relatório HTML a partir dos resultados (mesmo que os testes falhem).
+4.  **Deploy do Relatório:** Publica automaticamente a pasta `allure-report` gerada para um *branch* dedicado `gh-pages`.
+
+📊 **Você pode ver o último relatório executivo de testes, publicado ao vivo pelo pipeline, a qualquer momento:**
+
+**[https://thiagomaths.github.io/Java-Selenium-Cucumber-Framework/](https://thiagomaths.github.io/Java-Selenium-Cucumber-Framework/)**
 
 </details>
