@@ -110,10 +110,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version> <configuration>
-                <testFailureIgnore>true</testFailureIgnore>
-                <argLine>
-                    -javaagent:"${settings.localRepository}/io/qameta/allure/allure-java-agent-jvm/2.29.0/allure-java-agent-jvm-2.29.0.jar"
-                </argLine>
 
                 <includes>
                     <include>**/Runner.java</include>
