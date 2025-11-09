@@ -85,8 +85,16 @@ public class Login {
 
     @Then("I should see an error message indicating the email is invalid")
     public void i_should_see_an_error_message_indicating_the_email_is_invalid() {
-        Assert.assertTrue(Elements.isDisplayed(DriverManager.getDriver(), forgottenPasswordPage.mainWarning ));
-    }
+        try {
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(10));
+
+            wait.until(ExpectedConditions.visibilityOf(forgottenPasswordPage.mainWarning));
+
+            Assert.assertTrue(true);
+
+        } catch (Exception e) {
+            Assert.fail("The 'mainWarning' error message (on the ForgottenPassword page) did not appear.");
+        }    }
 
 
 }
