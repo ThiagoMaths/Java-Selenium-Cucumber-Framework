@@ -86,4 +86,14 @@ public class Waits {
         }
     }
 
+    public static boolean waitForVisibility(WebDriver driver, WebElement element, int timeoutInSeconds) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds));
+            wait.until(ExpectedConditions.visibilityOf(element));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }

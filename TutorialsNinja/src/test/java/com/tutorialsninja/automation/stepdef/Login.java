@@ -2,6 +2,7 @@ package com.tutorialsninja.automation.stepdef;
 
 import com.tutorialsninja.automation.framework.DriverManager;
 import com.tutorialsninja.automation.framework.Elements;
+import com.tutorialsninja.automation.framework.Waits;
 import com.tutorialsninja.automation.pages.ForgottenPasswordPage;
 import com.tutorialsninja.automation.pages.HeadersSectionPage;
 import com.tutorialsninja.automation.pages.LoginPage;
@@ -54,16 +55,9 @@ public class Login {
 
     @Then("I should see an error message that the credentials are invalid")
     public void i_should_see_an_error_message_that_the_credentials_are_invalid() {
-        try {
-            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(10));
+        boolean isVisible = Waits.waitForVisibility(DriverManager.getDriver(), loginPage.mainWarning, 10);
 
-            wait.until(ExpectedConditions.visibilityOf(loginPage.mainWarning));
-
-            Assert.assertTrue(true);
-
-        } catch (Exception e) {
-            Assert.fail("A mensagem de erro 'mainWarning' não foi exibida após 10 segundos.");
-        }
+        Assert.assertTrue("The 'mainWarning' error message was not displayed.", isVisible);
     }
 
     @When("I reset  the forgotten password for email")
@@ -85,16 +79,8 @@ public class Login {
 
     @Then("I should see an error message indicating the email is invalid")
     public void i_should_see_an_error_message_indicating_the_email_is_invalid() {
-        try {
-            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(10));
+        boolean isVisible = Waits.waitForVisibility(DriverManager.getDriver(), forgottenPasswordPage.mainWarning, 10);
 
-            wait.until(ExpectedConditions.visibilityOf(forgottenPasswordPage.mainWarning));
-
-            Assert.assertTrue(true);
-
-        } catch (Exception e) {
-            Assert.fail("The 'mainWarning' error message (on the ForgottenPassword page) did not appear.");
-        }    }
-
-
+        Assert.assertTrue("The 'mainWarning' error message (on the ForgottenPassword page) was not displayed.", isVisible);
+    }
 }
