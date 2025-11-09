@@ -1,1 +1,1 @@
-{"total":0,"items":[]}
+{"total":3,"items":[{"uid":"164491b6e1ac301746a8500e11f90891","name":"Login functionality scenarios","statistic":{"failed":0,"broken":0,"skipped":0,"passed":5,"unknown":0,"total":5}},{"uid":"21825305fa54bb44587d1fb0cc54dc3f","name":"Registration functionality scenarios","statistic":{"failed":0,"broken":0,"skipped":0,"passed":4,"unknown":0,"total":4}},{"uid":"0cafd39f38290a692f10f2ca26c70cbe","name":"Search functionality scenarios","statistic":{"failed":0,"broken":0,"skipped":0,"passed":2,"unknown":0,"total":2}}]}
