@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.tutorialsninja.automation.runner.Runner
+-------------------------------------------------------------------------------
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 112.4 s -- in com.tutorialsninja.automation.runner.Runner

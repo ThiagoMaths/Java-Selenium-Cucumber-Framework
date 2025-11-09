@@ -8,10 +8,4 @@ public interface ConfigurationReader {
 
     int getPageLoadTimeOut();
 
-    String getUserName();
-
-    String getPassword();
-
-    String getProduct();
-
 }

@@ -17,9 +17,7 @@ public class PropertyFileReader implements ConfigurationReader {
     private static final String URL_KEY = "url";
     private static final String BROWSER_KEY = "browser";
     private static final String PAGE_LOAD_TIMEOUT_KEY = "pageLoadTimeout";
-    private static final String USERNAME_KEY = "username";
-    private static final String PASSWORD_KEY = "password";
-    private static final String PRODUCT_KEY = "product";
+
 
 
     private final Properties properties;
@@ -51,21 +49,6 @@ public class PropertyFileReader implements ConfigurationReader {
     @Override
     public int getPageLoadTimeOut() {
         return Integer.parseInt(properties.getProperty(PAGE_LOAD_TIMEOUT_KEY));
-    }
-
-    @Override
-    public String getUserName() {
-        return properties.getProperty(USERNAME_KEY);
-    }
-
-    @Override
-    public String getPassword() {
-        return properties.getProperty(PASSWORD_KEY);
-    }
-
-    @Override
-    public String getProduct() {
-        return properties.getProperty(PRODUCT_KEY);
     }
 
 

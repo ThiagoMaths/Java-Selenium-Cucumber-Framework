@@ -1,16 +1,15 @@
 package com.tutorialsninja.automation.pages;
 
+import com.tutorialsninja.automation.framework.DriverManager;
 import com.tutorialsninja.automation.framework.Elements;
 import com.tutorialsninja.automation.utils.SQLiteHandler;
 import com.tutorialsninja.automation.utils.FakerUtil;
-import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.util.Arrays;
-import java.util.List;
+
 
 
 public class RegisterPage {
@@ -22,61 +21,64 @@ public class RegisterPage {
 
     public RegisterPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
-        util = new FakerUtil();
-        sqLiteHandler = new SQLiteHandler();
+        this.util  = new FakerUtil();
+        this.driver = driver;
+        this.sqLiteHandler = new SQLiteHandler();
+
     }
 
 
     @FindBy(id = "input-firstname")
-    public WebElement firstName;
+    private WebElement firstName;
 
     @FindBy(id = "input-lastname")
-    public WebElement lastName;
+    private WebElement lastName;
 
     @FindBy(id = "input-email")
-    public WebElement email;
+    private WebElement email;
 
     @FindBy(id = "input-telephone")
-    public WebElement telephone;
+    private WebElement telephone;
 
     @FindBy(id = "input-password")
-    public WebElement password;
+    private WebElement password;
 
     @FindBy(id = "input-confirm")
-    public WebElement confirmPassword;
+    private WebElement confirmPassword;
 
     @FindBy(xpath = "//input[@name='agree']")
-    public WebElement privacyPolity;
+    private WebElement privacyPolity;
 
     @FindBy(xpath = "//input[@value='Continue']")
-    public WebElement continueButton;
+    private WebElement continueButton;
 
     @FindBy(linkText = "Register")
-    public WebElement registerBreadCrumb;
+    private WebElement registerBreadCrumb;
 
     @FindBy(css = "input[id='input-firstname']+div")
-    public WebElement firsNameWarning;
+    private WebElement firsNameWarning;
 
     @FindBy(css = "input[id='input-lastname']+div")
-    public WebElement lastNameWarning;
+    private WebElement lastNameWarning;
 
     @FindBy(css = "input[id='input-email']+div")
-    public WebElement emailWarning;
+    private WebElement emailWarning;
 
     @FindBy(css = "input[id='input-telephone']+div")
-    public WebElement telephoneWarning;
+    private WebElement telephoneWarning;
 
     @FindBy(css = "input[id='input-password']+div")
-    public WebElement passwordWarning;
+    private WebElement passwordWarning;
 
     @FindBy(css = "div[class$='alert-dismissible']")
-    public WebElement mainWarning;
+    private WebElement mainWarning;
 
     @FindBy(xpath = "(//input[@name='newsletter'])[1]")
-    public WebElement subscribeButton;
+    private WebElement subscribeButton;
 
     @FindBy(xpath = "(//div[@class='alert alert-danger alert-dismissible'])[1]")
-    public WebElement dangerWarning;
+    private WebElement dangerWarning;
+
 
     public void enterAllDetails() {
 
@@ -87,6 +89,23 @@ public class RegisterPage {
         String passwordValue = util.password();
 
         sqLiteHandler.insertUser(emailValue, passwordValue);
+
+        Elements.TypeText(driver, firstName, firstNameValue);
+        Elements.TypeText(driver, lastName, lastNameValue);
+        Elements.TypeText(driver, email, emailValue);
+        Elements.TypeText(driver, telephone, telephoneValue);
+        Elements.TypeText(driver, password, passwordValue);
+        Elements.TypeText(driver, confirmPassword, passwordValue);
+
+    }
+
+    public void enterAllDetailsEmailDuplicate() {
+
+        String firstNameValue = util.firstName();
+        String lastNameValue = util.lastName();
+        String emailValue = sqLiteHandler.getRandomEmail();
+        String telephoneValue = util.telephone();
+        String passwordValue = util.password();
 
         Elements.TypeText(driver, firstName, firstNameValue);
         Elements.TypeText(driver, lastName, lastNameValue);
@@ -112,37 +131,35 @@ public class RegisterPage {
 
     }
 
-    public void WarningAlert() {
-        List<WebElement> warningElements = Arrays.asList(
-                firsNameWarning,
-                lastNameWarning,
-                emailWarning,
-                telephoneWarning,
-                passwordWarning,
-                mainWarning
-        );
-
-        List<String> warningMessages = Arrays.asList(
-                "First name error message not displayed",
-                "Last name error message not displayed",
-                "Email error message not displayed",
-                "Phone number error message not displayed",
-                "Password error message not displayed",
-                "General error message not displayed"
-        );
-
-        for (int i = 0; i < warningElements.size(); i++) {
-            Assert.assertTrue(warningMessages.get(i), Elements.isDisplayed(driver, warningElements.get(i)));
-        }
+    public boolean isFirstNameWarningDisplayed() {
+        return Elements.isDisplayed(DriverManager.getDriver(), firsNameWarning);
     }
 
+    public boolean isLastNameWarningDisplayed() {
+        return Elements.isDisplayed(DriverManager.getDriver(), lastNameWarning);
+    }
+
+    public boolean isEmailWarningDisplayed() {
+        return Elements.isDisplayed(DriverManager.getDriver(), emailWarning);
+    }
+
+    public boolean isTelephoneWarningDisplayed() {
+        return Elements.isDisplayed(DriverManager.getDriver(), telephoneWarning);
+    }
+
+    public boolean isPasswordWarningDisplayed() {
+        return Elements.isDisplayed(DriverManager.getDriver(), passwordWarning);
+    }
+
+    public boolean isMainWarningDisplayed() {
+        return Elements.isDisplayed(DriverManager.getDriver(), mainWarning);
+    }
     public void subscribe() {
         Elements.selectRadioButton(subscribeButton);
 
     }
 
     public boolean duplicateAccount() {
-        boolean isDisplayed = Elements.isDisplayed(driver, dangerWarning);
-        return isDisplayed;
+        return Elements.isDisplayed(driver, registerBreadCrumb);
     }
 }

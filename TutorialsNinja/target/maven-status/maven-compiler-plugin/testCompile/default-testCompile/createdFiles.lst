@@ -1,0 +1,12 @@
+com\tutorialsninja\automation\stepdef\Search.class
+com\tutorialsninja\automation\stepdef\Hooks.class
+com\tutorialsninja\automation\pages\ForgottenPasswordPage.class
+com\tutorialsninja\automation\pages\LoginPage.class
+com\tutorialsninja\automation\pages\HeadersSectionPage.class
+com\tutorialsninja\automation\pages\RegisterPage.class
+com\tutorialsninja\automation\pages\AccountSuccessPage.class
+com\tutorialsninja\automation\runner\Runner.class
+com\tutorialsninja\automation\pages\MyAccountPage.class
+com\tutorialsninja\automation\pages\SearchResultPage.class
+com\tutorialsninja\automation\stepdef\Register.class
+com\tutorialsninja\automation\stepdef\Login.class

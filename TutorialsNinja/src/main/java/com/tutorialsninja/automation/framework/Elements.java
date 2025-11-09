@@ -45,10 +45,7 @@ public class Elements {
     }
 
     public static boolean VerifyTextEquals(WebElement element, String expected) {
-        boolean flag = false;
-        if (element.getText().equals(expected))
-            return flag = true;
-        return flag;
+        return element.getText().equals(expected);
     }
 
     public static String getTitle() {
@@ -60,9 +57,7 @@ public class Elements {
     }
 
     public static boolean isSelected(WebElement element) {
-        if (element.isSelected())
-            return true;
-        return false;
+        return element.isSelected();
     }
 
     public static void selectCheckBox(WebElement element) {
@@ -86,15 +81,15 @@ public class Elements {
     }
 
     public static boolean isEnabled(WebElement element) {
-        if (element.isEnabled())
-            return true;
-        return false;
+       return element.isEnabled();
     }
 
     public static boolean isDisplayed(WebDriver driver, WebElement element) {
-        if (element.isDisplayed())
-            return true;
-        return false;
+        try {
+            return element.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public static void selectByText(WebElement element, String text) {
